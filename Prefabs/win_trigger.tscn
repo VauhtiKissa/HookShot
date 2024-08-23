@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://2g4y2lxiclmq"]
+
+[ext_resource type="Script" path="res://Code/WinTrigger.cs" id="1_7u6nj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jmq7s"]
+size = Vector2(384, 128)
+
+[node name="WinTrigger" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_7u6nj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(192, 64)
+shape = SubResource("RectangleShape2D_jmq7s")
+debug_color = Color(0.345098, 0.811765, 0.388235, 0.819608)
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
