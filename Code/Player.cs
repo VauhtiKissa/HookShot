@@ -18,6 +18,9 @@ public partial class Player : CharacterBody2D
     public bool hooked = false;
     private RayCast2D hookRaycast;
     private Line2D hookRope;
+    private Line2D rangeIndicator;
+
+    const int rangeIndicatorPointCount = 128;
 
     // Get the gravity from the project settings to be synced with RigidBody nodes.
     public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
@@ -27,6 +30,15 @@ public partial class Player : CharacterBody2D
         hookRaycast = GetNode<RayCast2D>("./HookRayCast2D");
         hookRaycast.TargetPosition = new Vector2(maximumRadius, 0);
         hookRope = GetNode<Line2D>("./Rope");
+        rangeIndicator = GetNode<Line2D>("./RangeIndicator");
+        Vector2[] RangeIndicatorPoints = new Vector2[rangeIndicatorPointCount];
+
+        for (int i = 0; i < rangeIndicatorPointCount; i++)
+        {
+            RangeIndicatorPoints[i] =
+                Vector2.FromAngle(2 * Mathf.Pi / rangeIndicatorPointCount * i) * maximumRadius;
+        }
+        rangeIndicator.Points = RangeIndicatorPoints;
     }
 
     public override void _PhysicsProcess(double delta)
