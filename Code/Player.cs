@@ -19,6 +19,7 @@ public partial class Player : CharacterBody2D
     private RayCast2D hookRaycast;
     private Line2D hookRope;
     private Line2D rangeIndicator;
+    private TileMap tileMap;
 
     const int rangeIndicatorPointCount = 128;
 
@@ -30,6 +31,9 @@ public partial class Player : CharacterBody2D
         hookRaycast = GetNode<RayCast2D>("./HookRayCast2D");
         hookRaycast.TargetPosition = new Vector2(maximumRadius, 0);
         hookRope = GetNode<Line2D>("./Rope");
+
+        tileMap = GetNode<TileMap>("../groundTileMap");
+
         rangeIndicator = GetNode<Line2D>("./RangeIndicator");
         Vector2[] RangeIndicatorPoints = new Vector2[rangeIndicatorPointCount];
 
@@ -52,7 +56,21 @@ public partial class Player : CharacterBody2D
 
             hookRaycast.ForceRaycastUpdate();
 
-            if (hookRaycast.IsColliding())
+            if (
+                hookRaycast.IsColliding()
+                && tileMap
+                    .GetCellTileData(
+                        -1,
+                        tileMap.LocalToMap(
+                            (
+                                hookRaycast.GetCollisionPoint()
+                                + (hookRaycast.GetCollisionPoint() - Position).Normalized()
+                            ) / 8
+                        )
+                    )
+                    .GetCustomData("hookable")
+                    .AsBool() == true
+            )
             {
                 hooked = true;
                 hookPosition = hookRaycast.GetCollisionPoint();
