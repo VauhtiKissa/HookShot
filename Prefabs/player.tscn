@@ -16,7 +16,7 @@ shape = SubResource("RectangleShape2D_dicxv")
 debug_color = Color(2.69532e-06, 0.633686, 0.437659, 0.42)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.5, 0.5)
+zoom = Vector2(0.25, 0.25)
 position_smoothing_enabled = true
 
 [node name="RangeIndicator" type="Line2D" parent="."]
@@ -29,6 +29,7 @@ default_color = Color(0.290196, 0.894118, 0.290196, 0.227451)
 texture_mode = 1
 
 [node name="Rope" type="Line2D" parent="."]
+visible = false
 z_index = 2
 z_as_relative = false
 texture_filter = 1

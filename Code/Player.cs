@@ -77,11 +77,6 @@ public partial class Player : CharacterBody2D
                 currentRadius = (hookPosition - Position).Length();
                 hookRope.Visible = true;
             }
-            else
-            {
-                hooked = false;
-                hookRope.Visible = false;
-            }
         }
 
         if (Input.IsActionJustPressed("release rope"))
