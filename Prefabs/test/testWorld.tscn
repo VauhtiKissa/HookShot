@@ -235,3 +235,46 @@ shape = SubResource("RectangleShape2D_4sxgs")
 position = Vector2(568, 16)
 scale = Vector2(9.125, 0.25)
 texture = ExtResource("1_1o8m3")
+
+[node name="Wall17" type="StaticBody2D" parent="Node2D"]
+position = Vector2(2368, 520)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Wall17"]
+position = Vector2(568, 16)
+shape = SubResource("RectangleShape2D_4sxgs")
+
+[node name="Icon3" type="Sprite2D" parent="Node2D/Wall17"]
+position = Vector2(568, 16)
+scale = Vector2(9.125, 0.25)
+texture = ExtResource("1_1o8m3")
+
+[node name="Wall18" type="StaticBody2D" parent="Node2D"]
+position = Vector2(2368, 512)
+scale = Vector2(0.5, 1)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Wall18"]
+position = Vector2(568, 16)
+shape = SubResource("RectangleShape2D_4sxgs")
+
+[node name="Icon3" type="Sprite2D" parent="Node2D/Wall18"]
+position = Vector2(568, 16)
+scale = Vector2(9.125, 0.25)
+texture = ExtResource("1_1o8m3")
+
+[node name="Wall19" type="StaticBody2D" parent="Node2D"]
+position = Vector2(2208, 272)
+scale = Vector2(0.5, 1)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Wall19"]
+position = Vector2(568, 16)
+shape = SubResource("RectangleShape2D_4sxgs")
+
+[node name="Icon3" type="Sprite2D" parent="Node2D/Wall19"]
+position = Vector2(568, 16)
+scale = Vector2(9.125, 0.25)
+texture = ExtResource("1_1o8m3")

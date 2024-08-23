@@ -32,11 +32,10 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         Vector2 velocity = Velocity;
+        Vector2 mousePosition = GetLocalMousePosition();
 
         if (Input.IsActionJustPressed("launch rope"))
         {
-            Vector2 mousePosition = GetLocalMousePosition();
-
             hookRaycast.TargetPosition = mousePosition.Normalized() * maximumRadius;
 
             hookRaycast.ForceRaycastUpdate();
@@ -65,19 +64,27 @@ public partial class Player : CharacterBody2D
 
         float distance = hook.Length();
 
-        if (Input.IsActionPressed("right") && hooked)
+        if (Input.IsActionPressed("right") && hooked && !IsOnFloor())
         {
             velocity += Vector2.FromAngle(hook.Angle() + 0.5f * Mathf.Pi) * swingSpeed;
         }
-        if (Input.IsActionPressed("left") && hooked)
+        if (Input.IsActionPressed("left") && hooked && !IsOnFloor())
         {
             velocity += Vector2.FromAngle(hook.Angle() + 0.5f * Mathf.Pi) * -swingSpeed;
         }
 
         // rope pulling
-        if (Input.IsActionPressed("up") && hooked && currentRadius > 25)
+        if (Input.IsActionPressed("up") && hooked && !IsOnCeiling())
         {
+            hookRaycast.TargetPosition = hook * maximumRadius;
+            hookRaycast.ForceRaycastUpdate();
+            float miniumLength = 0;
+            if (hookRaycast.IsColliding())
+            {
+                miniumLength = (hookRaycast.GetCollisionPoint() - hookPosition).Length() + 32;
+            }
             currentRadius -= climbingSpeed;
+            currentRadius = Mathf.Max(currentRadius, miniumLength);
         }
 
         velocity += Vector2.Down * gravity;
@@ -104,6 +111,7 @@ public partial class Player : CharacterBody2D
             && distance >= currentRadius - 1
             && hooked
             && currentRadius <= maximumRadius
+            && !IsOnFloor()
         )
         {
             currentRadius += climbingSpeed;
