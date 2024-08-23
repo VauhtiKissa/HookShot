@@ -16,6 +16,7 @@ public partial class Player : CharacterBody2D
     [Export]
     public float swingSpeed = 10;
     public bool hooked = false;
+    public Vector2 pushForce;
     private RayCast2D hookRaycast;
     private Line2D hookRope;
     private Line2D rangeIndicator;
@@ -48,6 +49,7 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         Vector2 velocity = Velocity;
+        velocity += pushForce;
         Vector2 mousePosition = GetLocalMousePosition();
 
         if (Input.IsActionJustPressed("launch rope"))
@@ -64,7 +66,8 @@ public partial class Player : CharacterBody2D
                         tileMap.LocalToMap(
                             (
                                 hookRaycast.GetCollisionPoint()
-                                + (hookRaycast.GetCollisionPoint() - Position).Normalized()
+                                - tileMap.Position
+                                - hookRaycast.GetCollisionNormal()
                             ) / 8
                         )
                     )
