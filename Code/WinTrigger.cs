@@ -11,9 +11,7 @@ public partial class WinTrigger : Area2D
     {
         if (body.Name == "Player")
         {
-            GD.Print("VIcotryy");
-            GetTree().Root.AddChild(newMap.Instantiate());
-            GetParent().QueueFree();
+            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToPacked, newMap);
         }
     }
 }

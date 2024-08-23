@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ba4k0i8pf5eai"]
+
+[ext_resource type="PackedScene" uid="uid://d2gb5wkpk1wec" path="res://Prefabs/player.tscn" id="1_tm3ro"]
+[ext_resource type="TileSet" uid="uid://lcgh6lavmhxd" path="res://Sprites/GroundSprites/BasicTileSet.tres" id="2_cf1bn"]
+[ext_resource type="PackedScene" uid="uid://2g4y2lxiclmq" path="res://Prefabs/winTrigger.tscn" id="3_sgaat"]
+
+[node name="Level" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_tm3ro")]
+position = Vector2(640, 0)
+
+[node name="groundTileMap" type="TileMap" parent="."]
+scale = Vector2(8, 8)
+tile_set = ExtResource("2_cf1bn")
+format = 2
+layer_0/tile_data = PackedInt32Array(65536, 0, 0, 131072, 0, 1, 65537, 65536, 0, 131073, 65536, 1)
+
+[node name="WinTrigger" parent="." instance=ExtResource("3_sgaat")]
+position = Vector2(512, 128)
