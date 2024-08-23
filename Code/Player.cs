@@ -114,8 +114,9 @@ public partial class Player : CharacterBody2D
             && !IsOnFloor()
         )
         {
-            currentRadius += climbingSpeed;
-            Position += hook.Normalized() * -climbingSpeed;
+            float change = Mathf.Min(currentRadius + climbingSpeed, maximumRadius) - currentRadius;
+            currentRadius += change;
+            Position += hook.Normalized() * -change;
         }
 
         if (IsOnFloor())
