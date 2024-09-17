@@ -6,7 +6,7 @@
 size = Vector2(384, 384)
 
 [node name="Pusher" type="Area2D"]
-collision_mask = 2
+collision_layer = 0
 script = ExtResource("1_mtb48")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

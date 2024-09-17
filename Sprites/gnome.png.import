@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2wkm1h1x825a"
-path="res://.godot/imported/GroundAtlas.png-0092ae2f636699c39a7a505ab74183ef.ctex"
+uid="uid://dd3s5vn0hjtxw"
+path="res://.godot/imported/gnome.png-b5cf448466d4c64fdf02708c2f20c0b0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/GroundSprites/GroundAtlas.png"
-dest_files=["res://.godot/imported/GroundAtlas.png-0092ae2f636699c39a7a505ab74183ef.ctex"]
+source_file="res://Sprites/gnome.png"
+dest_files=["res://.godot/imported/gnome.png-b5cf448466d4c64fdf02708c2f20c0b0.ctex"]
 
 [params]
 

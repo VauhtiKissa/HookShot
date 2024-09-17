@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://craqr0bhocbgk"
-path="res://.godot/imported/groblin.png-5cdc0a7ae82f4c37bf1980e070996105.ctex"
+uid="uid://5bbkd8psu1ku"
+path="res://.godot/imported/ground.png-99e476646db1411a124b892d16729d46.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/groblin.png"
-dest_files=["res://.godot/imported/groblin.png-5cdc0a7ae82f4c37bf1980e070996105.ctex"]
+source_file="res://Sprites/GroundSprites/ground.png"
+dest_files=["res://.godot/imported/ground.png-99e476646db1411a124b892d16729d46.ctex"]
 
 [params]
 

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbgqw8ql8c4qd"]
+
+[ext_resource type="PackedScene" uid="uid://ba4k0i8pf5eai" path="res://Prefabs/baseLevel.tscn" id="1_8rh0n"]
+
+[node name="Level" instance=ExtResource("1_8rh0n")]
+
+[node name="Player" parent="." index="0"]
+position = Vector2(8000, -512)
+
+[node name="WinTrigger" parent="." index="2"]
+position = Vector2(-1536, 384)

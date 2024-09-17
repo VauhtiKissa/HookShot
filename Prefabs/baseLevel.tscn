@@ -7,13 +7,19 @@
 [node name="Level" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_tm3ro")]
-position = Vector2(640, 0)
+position = Vector2(-192, 320)
 
-[node name="groundTileMap" type="TileMap" parent="."]
+[node name="TileLayerParent" type="Node2D" parent="."]
+
+[node name="Ground" type="TileMapLayer" parent="TileLayerParent"]
+use_parent_material = true
 scale = Vector2(8, 8)
 tile_set = ExtResource("2_cf1bn")
-format = 2
-layer_0/tile_data = PackedInt32Array(65536, 0, 0, 131072, 0, 1, 65537, 65536, 0, 131073, 65536, 1)
+
+[node name="Layer1" type="TileMapLayer" parent="TileLayerParent"]
+use_parent_material = true
+scale = Vector2(8, 8)
+tile_set = ExtResource("2_cf1bn")
 
 [node name="WinTrigger" parent="." instance=ExtResource("3_sgaat")]
-position = Vector2(512, 128)
+position = Vector2(640, 256)

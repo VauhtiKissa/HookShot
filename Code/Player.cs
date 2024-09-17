@@ -15,12 +15,12 @@ public partial class Player : CharacterBody2D
 
     [Export]
     public float swingSpeed = 10;
-    public bool hooked = false;
+    public bool isHooked = false;
     public Vector2 pushForce;
-    private RayCast2D hookRaycast;
+    private RayCast2D hookRayCast;
     private Line2D hookRope;
     private Line2D rangeIndicator;
-    private TileMap tileMap;
+    private TileMapLayer tileMap;
 
     const int rangeIndicatorPointCount = 128;
 
@@ -29,11 +29,11 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
-        hookRaycast = GetNode<RayCast2D>("./HookRayCast2D");
-        hookRaycast.TargetPosition = new Vector2(maximumRadius, 0);
+        hookRayCast = GetNode<RayCast2D>("./HookRayCast");
+
         hookRope = GetNode<Line2D>("./Rope");
 
-        tileMap = GetNode<TileMap>("../groundTileMap");
+        tileMap = GetNode<TileMapLayer>("../TileLayerParent/Ground");
 
         rangeIndicator = GetNode<Line2D>("./RangeIndicator");
         Vector2[] RangeIndicatorPoints = new Vector2[rangeIndicatorPointCount];
@@ -54,29 +54,14 @@ public partial class Player : CharacterBody2D
 
         if (Input.IsActionJustPressed("launch rope"))
         {
-            hookRaycast.TargetPosition = mousePosition.Normalized() * maximumRadius;
+            hookRayCast.TargetPosition = mousePosition.Normalized() * maximumRadius;
 
-            hookRaycast.ForceRaycastUpdate();
+            hookRayCast.ForceRaycastUpdate();
 
-            if (
-                hookRaycast.IsColliding()
-                && tileMap
-                    .GetCellTileData(
-                        -1,
-                        tileMap.LocalToMap(
-                            (
-                                hookRaycast.GetCollisionPoint()
-                                - tileMap.Position
-                                - hookRaycast.GetCollisionNormal()
-                            ) / 8
-                        )
-                    )
-                    .GetCustomData("hookable")
-                    .AsBool() == true
-            )
+            if (hookRayCast.IsColliding() && tileMap.GetCellTileData(tileMap.LocalToMap((hookRayCast.GetCollisionPoint() - tileMap.Position - hookRayCast.GetCollisionNormal()) / 8)).GetCustomData("hookable").AsBool() == true)
             {
-                hooked = true;
-                hookPosition = hookRaycast.GetCollisionPoint();
+                isHooked = true;
+                hookPosition = hookRayCast.GetCollisionPoint();
                 currentRadius = (hookPosition - Position).Length();
                 hookRope.Visible = true;
             }
@@ -84,7 +69,7 @@ public partial class Player : CharacterBody2D
 
         if (Input.IsActionJustPressed("release rope"))
         {
-            hooked = false;
+            isHooked = false;
             hookRope.Visible = false;
         }
 
@@ -92,25 +77,27 @@ public partial class Player : CharacterBody2D
 
         float distance = hook.Length();
 
-        if (Input.IsActionPressed("right") && hooked && !IsOnFloor())
+        if (Input.IsActionPressed("right") && isHooked && !IsOnFloor())
         {
             velocity += Vector2.FromAngle(hook.Angle() + 0.5f * Mathf.Pi) * swingSpeed;
         }
-        if (Input.IsActionPressed("left") && hooked && !IsOnFloor())
+        if (Input.IsActionPressed("left") && isHooked && !IsOnFloor())
         {
             velocity += Vector2.FromAngle(hook.Angle() + 0.5f * Mathf.Pi) * -swingSpeed;
         }
 
         // rope pulling
-        if (Input.IsActionPressed("up") && hooked && !IsOnCeiling())
+        if (Input.IsActionPressed("up") && isHooked && !IsOnCeiling())
         {
-            hookRaycast.TargetPosition = hook * maximumRadius;
-            hookRaycast.ForceRaycastUpdate();
+            hookRayCast.TargetPosition = hook * maximumRadius;
+            hookRayCast.ForceRaycastUpdate();
             float miniumLength = 0;
-            if (hookRaycast.IsColliding())
+            
+            if (hookRayCast.IsColliding())
             {
-                miniumLength = (hookRaycast.GetCollisionPoint() - hookPosition).Length() + 32;
+                miniumLength = (hookRayCast.GetCollisionPoint() - hookPosition).Length() + 64;
             }
+            
             currentRadius -= climbingSpeed;
             currentRadius = Mathf.Max(currentRadius, miniumLength);
         }
@@ -118,7 +105,7 @@ public partial class Player : CharacterBody2D
         velocity += Vector2.Down * gravity;
 
         // -1 to get rid of floating point error edge cases
-        if (distance >= currentRadius - 1 && hooked)
+        if (distance >= currentRadius - 1 && isHooked)
         {
             Position += hook * (1 - currentRadius / distance);
 
@@ -127,20 +114,13 @@ public partial class Player : CharacterBody2D
 
             if (angleToVelocity > 0.5f * Mathf.Pi)
             {
-                float opposingForceMagnitude =
-                    Mathf.Cos(Mathf.Pi - angleToVelocity) * velocity.Length();
+                float opposingForceMagnitude = Mathf.Cos(Mathf.Pi - angleToVelocity) * velocity.Length();
                 velocity -= hook.Normalized() * -opposingForceMagnitude;
             }
         }
 
         // rope loosening
-        if (
-            Input.IsActionPressed("down")
-            && distance >= currentRadius - 1
-            && hooked
-            && currentRadius <= maximumRadius
-            && !IsOnFloor()
-        )
+        if (Input.IsActionPressed("down") && distance >= currentRadius - 1 && isHooked && currentRadius <= maximumRadius && !IsOnFloor())
         {
             float change = Mathf.Min(currentRadius + climbingSpeed, maximumRadius) - currentRadius;
             currentRadius += change;
@@ -149,7 +129,7 @@ public partial class Player : CharacterBody2D
 
         if (IsOnFloor())
         {
-            velocity = new Vector2(velocity.X * 0.9f, velocity.Y);
+            velocity = new Vector2(velocity.X * 0.8f, velocity.Y);
         }
 
         Velocity = velocity;
